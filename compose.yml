@@ -1,0 +1,81 @@
+services:
+  front:
+    init: true
+    container_name: brain_quoridor_front
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    user: node
+    expose:
+      - 3000
+    volumes:
+      - ./front/quizsalad-front:/home/node/app
+    tty: true
+    ports:
+      - 3000:3000
+    environment:
+      - WATCHPACK_POLLING=true
+    command: "yarn dev"
+    restart: always
+    networks:
+      - frontend
+      
+  # api:
+  #   init: true
+  #   container_name: quizsald_api
+  #   build: 
+  #     context: ./api
+  #     dockerfile: .Dockerfile
+  #   ports:
+  #    - 8080:8080
+  #   tty: true
+  #   restart: always
+  #   volumes:
+  #     - type: bind
+  #       source: ./api
+  #       target: /go/src
+  #   env_file:
+  #     - ./db/.env_sql
+  #   depends_on:
+  #     db:
+  #       condition: service_started
+  #   networks:
+  #     - frontend
+  #     - backend
+
+  # db:
+  #   init: true
+  #   container_name: quizsald_db
+  #   build:
+  #     context: ./db
+  #     dockerfile: .Dockerfile
+  #   tty: true
+  #   # platform: linux/x86_64
+  #   ports:
+  #     - 3306:3306
+  #   env_file:
+  #     - ./db/.env_sql
+  #   volumes:
+  #     - type: volume
+  #       source: quizsalad_volume
+  #       target: /var/lib/mysql
+  #   networks:
+  #     - backend
+
+volumes:
+  quizsalad_volume:
+    name: quizsald_volume
+
+networks:
+  frontend:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.10.0/24
+  backend:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.20.0/24
