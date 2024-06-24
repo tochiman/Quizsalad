@@ -1,118 +1,72 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
+import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
-import Stack from '@mui/material/Stack';
 import styles from "@/styles/Home.module.css";
-import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export default function MenuListComposition() {
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLButtonElement>(null);
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+export default function BasicMenu() {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleProfileClick = () => {
+    window.location.href = 'http://localhost:3000/user/change';
+    handleClose();
   };
 
-  const handleClose = (event: Event | React.SyntheticEvent) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
-    }
 
-    setOpen(false);
+
+  const handleLogoutClick = () => {
+    window.location.href = '.http://localhost:3000';
+    handleClose();
   };
-
-  function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === 'Escape') {
-      setOpen(false);
-    }
-  }
-
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current!.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
 
   return (
-    <>
-    <Stack direction="row" spacing={2}>
-      <Paper>
-        <MenuList>
-          <MenuItem>Profile</MenuItem>
-          <MenuItem>My account</MenuItem>
-          <MenuItem>Logout</MenuItem>
-        </MenuList>
-      </Paper>
-      <div>
-        <Button
-          ref={anchorRef}
-          id="composition-button"
-          aria-controls={open ? 'composition-menu' : undefined}
-          aria-expanded={open ? 'true' : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
-        >
-          Dashboard
-        </Button>
-        <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          placement="bottom-start"
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === 'bottom-start' ? 'left top' : 'left bottom',
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id="composition-menu"
-                    aria-labelledby="composition-button"
-                    onKeyDown={handleListKeyDown}
-                  >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </div>
-    </Stack>
-  <div className={styles.grid}>
+  <>
+    <div>
+      <Button
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        menu
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+        <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+      </Menu>
+    </div>
+  
+
+
+    
+    
+    <div className={styles.center}>
+          <h1>
+            welcome to quizland
+          </h1>
+     </div>
+    <div className={styles.grid}>
     <a
       href="http://localhost:3000/quiz/createquiz"
       className={styles.card}
       target="_blank"
       rel="noopener noreferrer"
-    >
+     >
       <h2>
         createquiz <span>-&gt;</span>
       </h2>
@@ -134,8 +88,9 @@ export default function MenuListComposition() {
         
       </p>
     </a> 
-  </div>
+   
+    </div>
   
-</>
+  </>
   );
 }
