@@ -43,24 +43,24 @@ services:
   #     - frontend
   #     - backend
 
-  # db:
-  #   init: true
-  #   container_name: quizsald_db
-  #   build:
-  #     context: ./db
-  #     dockerfile: .Dockerfile
-  #   tty: true
-  #   # platform: linux/x86_64
-  #   ports:
-  #     - 3306:3306
-  #   env_file:
-  #     - ./db/.env_sql
-  #   volumes:
-  #     - type: volume
-  #       source: quizsalad_volume
-  #       target: /var/lib/mysql
-  #   networks:
-  #     - backend
+  db:
+    init: true
+    container_name: quizsald_db
+    build:
+      context: ./db
+      dockerfile: .Dockerfile
+    tty: true
+    # platform: linux/x86_64
+    ports:
+      - 3306:3306
+    env_file:
+      - ./db/.env_sql
+    volumes:
+      - type: volume
+        source: quizsalad_volume
+        target: /var/lib/mysql
+    networks:
+      - backend
 
 volumes:
   quizsalad_volume:
