@@ -44,8 +44,12 @@ func main() {
 	v1path := apipath.Group("/v1")
 	userpath := v1path.Group("/user")
 	{
-		userpath.POST("/login", controller.Login)
+		userpath.GET("/info", controller.GetUserInformation)
+		userpath.POST("/create", controller.AddUserInformation)
+		userpath.DELETE("/delete", controller.DeleteUserInformation)
+		userpath.PUT("/update", controller.UpdateUserInformation)
 	}
+	v1path.GET("/home", controller.GetHomeInformation)
 	tokenpath := v1path.Group("token")
 	{
 		tokenpath.GET("/get", controller.GetToken)
