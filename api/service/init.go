@@ -7,7 +7,7 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
+	sqlx "github.com/jmoiron/sqlx"
 )
 
 func open(driverName string, dbName string, count uint) *sqlx.DB {

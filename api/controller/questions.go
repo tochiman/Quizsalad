@@ -40,3 +40,39 @@ func CreateQuestion(c *gin.Context) {
 		})
 	}
 }
+
+func AnswerQuestion(c *gin.Context) {
+	var (
+		questionSet       []model.QuestionSet
+		questionSetAnswer []model.QuestionSetAnswer
+		questions         []model.Questions
+		err               error
+		getQuestionId     string
+	)
+
+	getQuestionId = c.Query("questionId")
+	getQuestionId = c.DefaultQuery("questionId", "None")
+	if getQuestionId == "None" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "400 Bad Request",
+			"content": "questionId is required",
+		})
+		return
+	}
+
+	questionService := service.QuestionService{}
+	questionSet, questions, err = questionService.AnswerQuestion(getQuestionId)
+	questionSetAnswer, err = service.BindQuestionSetAnswer(questionSet)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  "500 Internal Server Error",
+			"content": err.Error(),
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"status":     "ok",
+			"question":   questionSetAnswer,
+			"questonSet": questions,
+		})
+	}
+}

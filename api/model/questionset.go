@@ -14,3 +14,9 @@ type QuestionSetHome struct {
 	QuestionSetTitle string `form:"questionSetTitle" db:"questionSetTitle" binding:"required" json:"questionSetTitle"`
 	Description      string `form:"description" db:"description" binding:"required" json:"description"`
 }
+
+type QuestionSetAnswer struct {
+	Username         string `form:"username" json:"username"`
+	QuestionSetTitle string `form:"questionSetTitle" db:"questionSetTitle" binding:"required" json:"questionSetTitle"`
+	Description      string `form:"description" db:"description" binding:"required" json:"description"`
+}

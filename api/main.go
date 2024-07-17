@@ -59,7 +59,7 @@ func main() {
 	questionpath := v1path.Group("/question")
 	{
 		questionpath.POST("/create", controller.CreateQuestion)
-		// questionpath.GET("/get", controller.GetCalendar)
+		questionpath.GET("/answer", controller.AnswerQuestion)
 		// questionpath.DELETE("/delete", controller.DeleteCalendar)
 		// questionpath.PUT("/update", controller.UpdateCalendar)
 	}

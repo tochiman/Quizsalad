@@ -2,6 +2,8 @@ package service
 
 import (
 	"api/model"
+
+	sqlx "github.com/jmoiron/sqlx"
 )
 
 type QuestionService struct{}
@@ -51,4 +53,66 @@ func (QuestionService) CreateQuestion(questions model.QuestionSet, token string)
 
 	}
 	return questions.QuestionSetId, err
+}
+
+func (QuestionService) AnswerQuestion(questionSetId string) ([]model.QuestionSet, []model.Questions, error) {
+	// データベースの接続・切断処理
+	db := connectDB()
+	defer db.Close()
+
+	var (
+		err         error
+		questionSet model.QuestionSet
+		questions   model.Questions
+		rows        *sqlx.Rows
+	)
+
+	// tokenよりユーザーを識別（ユーザーIDを取得する）
+	rows, err = db.Queryx("SELECT * FROM questionSet WHERE questionSetId=?", questionSetId)
+	if err != nil {
+		return nil, nil, err
+	}
+	questionSetResult := make([]model.QuestionSet, 0)
+	for rows.Next() {
+		err := rows.StructScan(&questionSet)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		questionSetResult = append(questionSetResult, questionSet)
+	}
+
+	rows, err = db.Queryx("SELECT * FROM questions WHERE questionSetId=?", questionSetId)
+	if err != nil {
+		return nil, nil, err
+	}
+	questionsResult := make([]model.Questions, 0)
+	for rows.Next() {
+		err := rows.StructScan(&questions)
+		if err != nil {
+			return nil, nil, err
+		}
+		questionsResult = append(questionsResult, questions)
+	}
+	return questionSetResult, questionsResult, err
+}
+
+func BindQuestionSetAnswer(questionSet []model.QuestionSet) ([]model.QuestionSetAnswer, error) {
+	// データベースの接続・切断処理
+	db := connectDB()
+	defer db.Close()
+
+	var username string
+
+	err := db.Get(&username, "SELECT username FROM user WHERE userId=?", questionSet[0].UserId)
+	if err != nil {
+		return nil, err
+	}
+
+	resultQuestionSetAnswer := make([]model.QuestionSetAnswer, 1)
+	resultQuestionSetAnswer[0].Username = username
+	resultQuestionSetAnswer[0].QuestionSetTitle = questionSet[0].QuestionSetTitle
+	resultQuestionSetAnswer[0].Description = questionSet[0].Description
+
+	return resultQuestionSetAnswer, err
 }
