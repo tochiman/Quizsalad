@@ -1,7 +1,7 @@
 services:
   front:
     init: true
-    container_name: brain_quoridor_front
+    container_name: quizsald_front
     build:
       context: ./front
       dockerfile: Dockerfile
@@ -20,28 +20,28 @@ services:
     networks:
       - frontend
       
-  # api:
-  #   init: true
-  #   container_name: quizsald_api
-  #   build: 
-  #     context: ./api
-  #     dockerfile: .Dockerfile
-  #   ports:
-  #    - 8080:8080
-  #   tty: true
-  #   restart: always
-  #   volumes:
-  #     - type: bind
-  #       source: ./api
-  #       target: /go/src
-  #   env_file:
-  #     - ./db/.env_sql
-  #   depends_on:
-  #     db:
-  #       condition: service_started
-  #   networks:
-  #     - frontend
-  #     - backend
+  api:
+    init: true
+    container_name: quizsald_api
+    build: 
+      context: ./api
+      dockerfile: .Dockerfile
+    ports:
+     - 8080:8080
+    tty: true
+    restart: always
+    volumes:
+      - type: bind
+        source: ./api
+        target: /go/src
+    env_file:
+      - ./db/.env_sql
+    depends_on:
+      db:
+        condition: service_started
+    networks:
+      - frontend
+      - backend
 
   db:
     init: true
