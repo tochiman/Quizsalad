@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS questionSet (
 CREATE TABLE IF NOT EXISTS questions (
     questionSetId       VARCHAR(10) NOT NULL,
     questionId          VARCHAR(10) PRIMARY KEY NOT NULL,
+    questionTitle       TEXT NOT NULL,
     answerOptionA       TEXT NOT NULL,
     answerOptionB       TEXT NOT NULL,
     answerOptionC       TEXT NOT NULL,
