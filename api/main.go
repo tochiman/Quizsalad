@@ -56,12 +56,12 @@ func main() {
 		tokenpath.POST("/create", controller.AddToken)
 		tokenpath.DELETE("/delete", controller.DeleteToken)
 	}
-	// calendarpath := v1path.Group("/calendar")
-	// {
-	// 	calendarpath.POST("/add", controller.AddCalendar)
-	// 	calendarpath.GET("/get", controller.GetCalendar)
-	// 	calendarpath.DELETE("/delete", controller.DeleteCalendar)
-	// 	calendarpath.PUT("/update", controller.UpdateCalendar)
-	// }
+	questionpath := v1path.Group("/question")
+	{
+		questionpath.POST("/create", controller.CreateQuestion)
+		// questionpath.GET("/get", controller.GetCalendar)
+		// questionpath.DELETE("/delete", controller.DeleteCalendar)
+		// questionpath.PUT("/update", controller.UpdateCalendar)
+	}
 	router.Run()
 }
