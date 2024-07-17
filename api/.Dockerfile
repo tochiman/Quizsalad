@@ -1,4 +1,4 @@
-FROM golang:1.19-alpine
+FROM golang:1.22.5-alpine
 
 ENV ROOT=/go/src
 ENV CGO_ENABLED 0
