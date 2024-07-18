@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import {
   TextField,
@@ -16,11 +17,11 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import { addQuizData, QuizItem } from '../quiz/data';
+import axios from 'axios'; // axiosをインポート
 import { useRouter } from 'next/router'; // Next.jsのrouterをインポート
 
 const CreateQuiz = () => {
-  const router = useRouter(); // useRouterを使用してrouterを取得
+  const router = useRouter();
   const [activeStep, setActiveStep] = useState(0);
   const [subject, setSubject] = useState('');
   const [questions, setQuestions] = useState([
@@ -75,16 +76,25 @@ const CreateQuiz = () => {
     setQuestions(updatedQuestions);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newQuizItem: QuizItem = {
+    const newQuizItem = {
       subject,
       questions,
     };
-    addQuizData(newQuizItem);
-    setSubject('');
-    setQuestions([{ question: '', options: ['', '', '', ''], answer: '' }]);
-    setActiveStep(0);
+
+    try {
+      // バックエンドのAPIエンドポイントにデータを送信
+      const response = await axios.post('/api/addQuiz', newQuizItem);
+      console.log(response.data); // 成功した場合のレスポンスを表示
+
+      // 成功したら、フォームをリセットする
+      setSubject('');
+      setQuestions([{ question: '', options: ['', '', '', ''], answer: '' }]);
+      setActiveStep(0);
+    } catch (error) {
+      console.error('Error adding quiz item:', error);
+    }
   };
 
   const handleGoHome = () => {
