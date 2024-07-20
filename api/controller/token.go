@@ -40,8 +40,8 @@ func AddToken(c *gin.Context) {
 	err := c.Bind(&tokenModel)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"status": "400 Bad Request",
-			"msg":    err.Error(),
+			"status":  "400 Bad Request",
+			"content": err.Error(),
 		})
 		return
 	}
@@ -56,8 +56,8 @@ func AddToken(c *gin.Context) {
 		return
 	} else {
 		c.JSON(http.StatusOK, gin.H{
-			"status": "200 OK",
-			"msg":    gin.H{"token": tokenModel.Token},
+			"status":  "200 OK",
+			"content": gin.H{"token": tokenModel.Token},
 		})
 	}
 }
