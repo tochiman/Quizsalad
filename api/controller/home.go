@@ -8,18 +8,17 @@ import (
 )
 
 func GetHomeInformation(c *gin.Context) {
-	getUser := c.Query("username")
-	getUser = c.DefaultQuery("username", "None")
-	if getUser == "None" {
+	token := c.GetHeader("token")
+	if token == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "400 Bad Request",
-			"content": "Username is required",
+			"content": "TOken is required",
 		})
 		return
 	}
 
 	homeService := service.HomeService{}
-	getData, err := homeService.GetHomeInformation(getUser)
+	getData, err := homeService.GetHomeInformation(token)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  "500 Internal Server Error",

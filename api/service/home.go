@@ -6,14 +6,14 @@ import (
 
 type HomeService struct{}
 
-func (HomeService) GetHomeInformation(username string) ([]model.QuestionSetHome, error) {
+func (HomeService) GetHomeInformation(token string) ([]model.QuestionSetHome, error) {
 	db := connectDB()
 	defer db.Close()
 
 	var userId string
 	var questionSet []model.QuestionSetHome
 
-	err := db.Get(&userId, "SELECT userId FROM user WHERE username = ?", username)
+	err := db.Get(&userId, "SELECT id FROM token WHERE token = ?", token)
 	if err != nil {
 		return questionSet, err
 	}
