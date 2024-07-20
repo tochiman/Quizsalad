@@ -5,7 +5,7 @@ type QuestionSet struct {
 	QuestionSetId    string      `form:"questionSetId" db:"questionSetId" json:"questionSetId"`
 	QuestionSetTitle string      `form:"questionSetTitle" db:"questionSetTitle" binding:"required" json:"questionSetTitle"`
 	QuestionSetList  []Questions `form:"questionSet" json:"questionSet"`
-	Description      string      `form:"description" db:"description" binding:"required" json:"description"`
+	Description      string      `form:"description" db:"description" json:"description"`
 }
 
 // Homeエンドポイントにて返却時に必要な情報に絞った型

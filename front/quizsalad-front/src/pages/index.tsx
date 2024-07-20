@@ -10,6 +10,10 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const {data: session, status: loading} = useSession()
 
+  const handleSignIn = () => {
+    signIn({callbackUrl: '/home'})
+  }
+
   if(session){
     Router.push('/home');
   }else{
@@ -20,7 +24,7 @@ export default function Home() {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <main className={`${styles.main} ${inter.className}`}>
+        <main className={`${styles.main}`}>
           <div className={styles.center}>
             <h1>
               welcome to quizsalad
@@ -31,7 +35,7 @@ export default function Home() {
               <a
                 className={styles.card}
                 rel="noopener noreferrer"
-                onClick={signIn}
+                onClick={handleSignIn}
               >
                 <h2>
                   login <span>-&gt;</span>
