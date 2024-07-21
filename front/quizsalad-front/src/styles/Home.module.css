@@ -48,8 +48,7 @@
 }
 
 .QuestionCard {
-  max-width: 400px;
-  min-width: 350px;
+  width: 350px;
   height: 200px;
   margin-right: 10px;
   margin-bottom: 10px;
