@@ -135,7 +135,11 @@ export default function Home() {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div className={styles.Main}>
+        <div className={styles.main}>
+          <div>
+            <h1 className={styles.auth_title}>Quizsalad</h1>
+            <h3 className={styles.sub_title}>ユーザー新規作成</h3>
+          </div>
           <Box sx={{ width: '100%' }}>
             <Stepper activeStep={activeStep}>
               {steps.map((label, index) => {
@@ -153,10 +157,6 @@ export default function Home() {
             {activeStep === steps.length ? (
               <Fragment>
                 <div className={styles.new_border}>
-                  <div>
-                    <h1 className={styles.auth_title}>Quizsalad</h1>
-                    <h3 className={styles.sub_title}>ユーザー新規作成</h3>
-                  </div>
                   <Typography sx={{ mt: 2, mb: 1 }}>
                     {Alert400 && <Alert severity="error" sx={{ width: '100%' }}>リクエストエラー</Alert>}
                     {Alert500 && <Alert severity="error" sx={{ width: '100%' }}>サーバーエラー</Alert>}
@@ -176,10 +176,6 @@ export default function Home() {
             ) : (
               <Fragment>
                   <div className={styles.new_border}>
-                    <div>
-                        <h1 className={styles.auth_title}>Quizsalad</h1>
-                        <h3 className={styles.sub_title}>ユーザー新規作成</h3>
-                    </div>
                     {activeStep === 0 ? (
                       <form onSubmit={onSubmit}>
                         {errors.password && <Alert severity='error' sx={{mb:"10px"}} >{errors.password.message}</Alert>}

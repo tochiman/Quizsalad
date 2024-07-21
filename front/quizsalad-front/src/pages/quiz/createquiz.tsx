@@ -226,9 +226,10 @@ const CreateQuiz = () => {
         <div className={styles.main}>
           <Container maxWidth="sm">
             <Box mt={4} mb={4}>
-              <Typography variant="h4" align="center" gutterBottom>
-                問題を作成
-              </Typography>
+              <div>
+                <h1 className={styles.auth_title}>Quizsalad</h1>
+                <h3 className={styles.sub_title}>問題を作成</h3>
+              </div>
               <Stepper activeStep={activeStep} alternativeLabel>
                 {steps.map((label) => (
                   <Step key={label}>
