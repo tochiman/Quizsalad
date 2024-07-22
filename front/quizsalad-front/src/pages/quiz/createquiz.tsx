@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
   TextField,
@@ -17,7 +16,6 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import axios from 'axios'; // axiosをインポート
 import { useRouter } from 'next/router'; // Next.jsのrouterをインポート
 
 const CreateQuiz = () => {
@@ -84,9 +82,15 @@ const CreateQuiz = () => {
     };
 
     try {
-      // バックエンドのAPIエンドポイントにデータを送信
-      const response = await axios.post('/api/addQuiz', newQuizItem);
-      console.log(response.data); // 成功した場合のレスポンスを表示
+      const response = await fetch('/api/addQuiz', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newQuizItem),
+      });
+      const data = await response.json();
+      console.log(data); // 成功した場合のレスポンスを表示
 
       // 成功したら、フォームをリセットする
       setSubject('');
