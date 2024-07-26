@@ -30,28 +30,23 @@ export default function BasicMenu() {
     setOpenSnackBar(true);
   };
   const handleCloseSnackBar = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
     setOpenSnackBar(false);
   };
 
-  const [questionlist, setquestionlist] = useState([
-    {
-      questionSetId: "",
-      questionSetTitle: "",
-      description: "",
-    }
-  ])
-  let token: string = session?.user.accessToken ?? ""
-  while (session == null){
-    token = session?.user.accessToken
+  interface TypeQuesntion {
+    questionSetId: string;
+    questionSetTitle: string;
+    description: string;
   }
+  const [questionlist, setquestionlist] = useState<TypeQuesntion[]>([])
+
+  let token: string = session?.user.accessToken ?? ""
   useEffect(() => {
+    // setquestionlist([])
     const RequestHomeInformation = async () => {
       type TypeResult = {
         status: string,
-        questionsList: typeof questionlist,
+        questionsList: TypeQuesntion[],
       }
       const url = process.env.API_FRONT + '/api/v1/home'
       const Options = {
@@ -63,15 +58,17 @@ export default function BasicMenu() {
           const result = await fetch(url, Options)
           const resultJson: TypeResult = await result.json()
           if (result.status === 200) {
-            setquestionlist([
-              {
-                questionSetId: "",
-                questionSetTitle: "",
-                description: "",
-              }
-            ])
             const list = resultJson.questionsList
             for (let i=0; i < list.length; i++){
+              if (i=0){
+                setquestionlist([
+                  { 
+                    questionSetId: list[i].questionSetId,
+                    questionSetTitle: list[i].questionSetTitle,
+                    description: list[i].description,
+                  },
+               ]);
+              } else {
                 setquestionlist([
                   ...questionlist,
                   { 
@@ -80,6 +77,8 @@ export default function BasicMenu() {
                     description: list[i].description,
                   },
                ]);
+              }
+               console.log(setquestionlist)
             }
             handleClick()
           } else {
@@ -92,7 +91,7 @@ export default function BasicMenu() {
       }
     }
     RequestHomeInformation()
-  }, [])
+  }, [session?.user.accessToken])
 
   if (!session) {
     return null
@@ -125,9 +124,7 @@ export default function BasicMenu() {
           作成済みの問題一覧
         </Typography>
         <Stack direction="row" justifyContent="space-evenly" alignItems="flex-start" flexWrap="wrap">
-            {questionlist.length === 1 ? null :(
-              questionlist.map((question) => (
-                question.questionSetId == "" ? null: (
+            {questionlist.map((question) => (
                   <Card variant="outlined" className={styles.QuestionCard} key={question.questionSetId}>
                     <CardContent>
                       <Typography variant="h5" component="div">
@@ -144,10 +141,8 @@ export default function BasicMenu() {
                       <Button size="small">詳細</Button>
                     </CardActions>
                   </Card>
-                )
               )
-              ))
-            }
+            )}
         </Stack>
       </div>  
       </>
