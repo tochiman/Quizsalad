@@ -55,6 +55,17 @@ func (QuestionService) CreateQuestion(questions model.QuestionSet, token string)
 	return questions.QuestionSetId, err
 }
 
+func (QuestionService) DeleteQuestion(questionSet model.QuestionSet, token string) error {
+	db := connectDB()
+	defer db.Close()
+
+	_, err := db.Exec("DELETE FROM questionSet WHERE questionSetId=?  AND userId IN(SELECT id FROM token WHERE token=?)", questionSet.QuestionSetId, token)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (QuestionService) AnswerQuestion(questionSetId string) ([]model.QuestionSet, []model.Questions, error) {
 	// データベースの接続・切断処理
 	db := connectDB()

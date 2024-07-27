@@ -3,7 +3,7 @@ package model
 type QuestionSet struct {
 	UserId           string      `form:"userId" db:"userId" json:"userId"`
 	QuestionSetId    string      `form:"questionSetId" db:"questionSetId" json:"questionSetId"`
-	QuestionSetTitle string      `form:"questionSetTitle" db:"questionSetTitle" binding:"required" json:"questionSetTitle"`
+	QuestionSetTitle string      `form:"questionSetTitle" db:"questionSetTitle" json:"questionSetTitle"`
 	QuestionSetList  []Questions `form:"questionSet" json:"questionSet"`
 	Description      string      `form:"description" db:"description" json:"description"`
 }

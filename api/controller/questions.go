@@ -41,6 +41,43 @@ func CreateQuestion(c *gin.Context) {
 	}
 }
 
+func DeleteQuestion(c *gin.Context) {
+	var (
+		token       string
+		questionSet model.QuestionSet
+		err         error
+	)
+
+	token = c.GetHeader("token")
+	err = c.Bind(&questionSet)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "400 Bad Request",
+			"content": err.Error(),
+		})
+		return
+	} else if questionSet.QuestionSetId == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "400 Bad Request",
+			"content": "Not Set QuestionSetId",
+		})
+		return
+	}
+
+	QuestionService := service.QuestionService{}
+	err = QuestionService.DeleteQuestion(questionSet, token)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  "500 Internal Server Error",
+			"content": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status": "ok",
+	})
+}
+
 func AnswerQuestion(c *gin.Context) {
 	var (
 		questionSet       []model.QuestionSet

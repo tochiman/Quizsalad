@@ -60,7 +60,7 @@ func main() {
 	{
 		questionpath.POST("/create", controller.CreateQuestion)
 		questionpath.GET("/answer", controller.AnswerQuestion)
-		// questionpath.DELETE("/delete", controller.DeleteCalendar)
+		questionpath.DELETE("/delete", controller.DeleteQuestion)
 		// questionpath.PUT("/update", controller.UpdateCalendar)
 	}
 	router.Run()
