@@ -67,7 +67,7 @@ export default function Home() {
 
   //入力フォーム関連
   type FormData = {
-    name: string,
+    username: string,
     password: string,
     password_confirm: string; 
   };
@@ -102,7 +102,7 @@ export default function Home() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        username: data.name,
+        username: data.username,
         passPhrase: data.password,
       }),
     };
@@ -180,7 +180,7 @@ export default function Home() {
                       <form onSubmit={onSubmit}>
                         {errors.password && <Alert severity='error' sx={{mb:"10px"}} >{errors.password.message}</Alert>}
                         {AlertOn === false ? null: <Alert severity='error'>パスワードが一致していません。再度入力してください。</Alert>}
-                        <TextField id="outlined-basic" label="ユーザー名" variant="outlined" margin='normal' sx={{ width:"100%" }} {...register('name',{required:true})} required />
+                        <TextField id="outlined-basic" label="ユーザー名" variant="outlined" margin='normal' sx={{ width:"100%" }} {...register('username',{required:true})} required />
                         <div>
                           <FormControl sx={{ mb: '0px', width: '100%' }} variant="outlined">
                             <InputLabel htmlFor="outlined-adornment-password">パスワード</InputLabel>
