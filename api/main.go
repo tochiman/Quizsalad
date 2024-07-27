@@ -44,20 +44,24 @@ func main() {
 	v1path := apipath.Group("/v1")
 	userpath := v1path.Group("/user")
 	{
-		userpath.POST("/login", controller.Login)
+		userpath.GET("/info", controller.GetUserInformation)
+		userpath.POST("/create", controller.AddUserInformation)
+		userpath.DELETE("/delete", controller.DeleteUserInformation)
+		userpath.PUT("/update", controller.UpdateUserInformation)
 	}
+	v1path.GET("/home", controller.GetHomeInformation)
 	tokenpath := v1path.Group("token")
 	{
 		tokenpath.GET("/get", controller.GetToken)
 		tokenpath.POST("/create", controller.AddToken)
 		tokenpath.DELETE("/delete", controller.DeleteToken)
 	}
-	// calendarpath := v1path.Group("/calendar")
-	// {
-	// 	calendarpath.POST("/add", controller.AddCalendar)
-	// 	calendarpath.GET("/get", controller.GetCalendar)
-	// 	calendarpath.DELETE("/delete", controller.DeleteCalendar)
-	// 	calendarpath.PUT("/update", controller.UpdateCalendar)
-	// }
+	questionpath := v1path.Group("/question")
+	{
+		questionpath.POST("/create", controller.CreateQuestion)
+		questionpath.GET("/answer", controller.AnswerQuestion)
+		// questionpath.DELETE("/delete", controller.DeleteCalendar)
+		// questionpath.PUT("/update", controller.UpdateCalendar)
+	}
 	router.Run()
 }
