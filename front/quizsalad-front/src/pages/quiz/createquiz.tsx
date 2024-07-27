@@ -439,7 +439,7 @@ const CreateQuiz = () => {
                   </Button>
                   {activeStep === 3 && (
                     <Button type='button' variant="contained" color="primary" onClick={()=> {Router.reload()}}>
-                      最初にもどる
+                      続けて作成
                     </Button>
                   )} 
                   {activeStep === 1 && (
