@@ -51,7 +51,7 @@ type ModelToken = {
 
 // credentials の情報から、ログイン可能か判定してユーザー情報を返す関数
 const FetchUserAPI = async (credentials) => {
-  const url = "http://api:8080" + '/api/v1/user/info?username=' + credentials.username 
+  const url = process.env.API_BACK + '/api/v1/user/info?username=' + credentials.username 
   const result = await fetch(url, {method: 'GET', headers:{'Content-Type':'application/json'}})
   const ResultJson: TypeResult = await result.json()
   const res = ResultJson.result
@@ -59,7 +59,7 @@ const FetchUserAPI = async (credentials) => {
     if (ResultJson.status == 'ok') {
       if ( credentials.password == res[i].passPhrase ) {
         // ログイン可ならユーザー情報を返却
-        const url = "http://api:8080"  + '/api/v1/token/create'
+        const url = process.env.API_BACK  + '/api/v1/token/create'
         const Options = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
