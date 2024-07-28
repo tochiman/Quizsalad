@@ -75,11 +75,11 @@ const AnswerQuiz = () => {
             </div>
             <form onSubmit={handleSubmit(FetchAnswer)}>
               <TextField
-                label="クイズセットIDを入力"
+                label="問題セットIDを入力"
                 fullWidth
                 margin="normal"
                 variant="outlined"
-                {...register('questionId', { required: 'クイズセットIDは必須です。' })}
+                {...register('questionId', { required: '問題セットIDは必須です。' })}
                 error={!!errors.questionId}  // 修正点
                 helperText={errors.questionId?.message}  // 修正点
               />
@@ -87,6 +87,9 @@ const AnswerQuiz = () => {
               {Alert500 && <Alert severity="error" sx={{ width: '100%' }}>サーバーエラー</Alert>}
               {Alert200 && <Alert severity="success" sx={{ width: '100%' }}>リクエスト成功</Alert>}
               <Box mt={4} display="flex" justifyContent="space-between">
+                <Button onClick={() => {Router.push("/home")}} variant="contained" color="error">
+                  戻る
+                </Button>
                 <Button type='submit' variant="contained" color="primary">
                   回答ページへ
                 </Button>
