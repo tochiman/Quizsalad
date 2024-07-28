@@ -179,7 +179,7 @@ export default function BasicMenu() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
       <Header site="home" />
-      <Snackbar open={openSnackBar} autoHideDuration={5000} onClose={handleCloseSnackBar}>
+      <Snackbar open={openSnackBar} autoHideDuration={2500} onClose={handleCloseSnackBar}>
         <Alert
           onClose={handleCloseSnackBar}
           severity={severityBoolean ? "success": "error"}
@@ -189,7 +189,7 @@ export default function BasicMenu() {
           {severityBoolean ? "作成済みの問題を取得しました" : "問題を取得できません。存在しないかサーバーに問題がある発生しているかもしれません。"}
         </Alert>
       </Snackbar>
-      <Snackbar open={openSnackBarCardDetail} autoHideDuration={5000} onClose={handleCloseSnackBarCardDetail}>
+      <Snackbar open={openSnackBarCardDetail} autoHideDuration={2500} onClose={handleCloseSnackBarCardDetail}>
         <Alert
           onClose={handleCloseSnackBarCardDetail}
           severity={severityBooleanCardDetail ? "success": "error"}
