@@ -21,6 +21,7 @@ import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import LinearProgress from '@mui/material/LinearProgress';
 import Snackbar from '@mui/material/Snackbar';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -34,6 +35,9 @@ import { useForm } from 'react-hook-form'
 const CreateQuiz = () => {
   // NextAuth
   const {data: session, status: loading} = useSession()
+
+  // プログレスバーの管理
+  const [linearProgressDeleteQuestion, setLinearProgressDeleteQuestion] = React.useState(false)
 
   // クリップボードの処理
   const clickHandler = async () => {
@@ -190,6 +194,7 @@ const CreateQuiz = () => {
   });
   
   const RegisterSubmit = handleSubmit(async (data: FormData) => {
+    setLinearProgressDeleteQuestion(true)
     handleNext();handleNext()        //次のステップへ
     let token: string = session?.user.accessToken ?? ""
     const url = process.env.API_FRONT + '/api/v1/question/create'
@@ -202,14 +207,18 @@ const CreateQuiz = () => {
             questionSet: questionSet,
         }),
     }
-    const result = await fetch(url, Options)
-    const resultJson: TypeResult = await result.json()
-    if (result.status === 400) setAlert400(true);
-    else if (result.status === 500) setAlert500(true);
-    else if (result.status === 200) {
-      setAlert200(true);
-      console.log(resultJson)
-      setQuestionId(resultJson.question_set_id)
+    try{
+      const result = await fetch(url, Options)
+      const resultJson: TypeResult = await result.json()
+      if (result.status === 400) setAlert400(true);
+      else if (result.status === 500) setAlert500(true);
+      else if (result.status === 200) {
+        setAlert200(true);
+        console.log(resultJson)
+        setQuestionId(resultJson.question_set_id)
+      }
+    } finally {
+      setLinearProgressDeleteQuestion(false)
     }
   });
   if (!session){
@@ -391,6 +400,7 @@ const CreateQuiz = () => {
                 )}
                 {activeStep === 3 && (
                   <Box>
+                    {linearProgressDeleteQuestion && <LinearProgress color="primary" />}
                     {Alert400 && <Alert severity="error" sx={{ width: '100%' }}>リクエストエラー</Alert>}
                     {Alert500 && <Alert severity="error" sx={{ width: '100%' }}>サーバーエラー</Alert>}
                     {Alert200 && <Alert severity="success" sx={{ width: '100%' }}>リクエスト成功</Alert>}
