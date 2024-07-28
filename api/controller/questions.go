@@ -107,9 +107,9 @@ func AnswerQuestion(c *gin.Context) {
 		})
 	} else {
 		c.JSON(http.StatusOK, gin.H{
-			"status":     "ok",
-			"question":   questionSetAnswer,
-			"questonSet": questions,
+			"status":      "ok",
+			"question":    questionSetAnswer,
+			"questionSet": questions,
 		})
 	}
 }

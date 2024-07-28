@@ -60,7 +60,7 @@ export default function BasicMenu() {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: '80%',
     bgcolor: 'white',
     border: '2px solid white',
     boxShadow: 24,
@@ -210,12 +210,17 @@ export default function BasicMenu() {
         </Typography>
         <Stack direction="row" justifyContent="space-evenly" alignItems="flex-start" flexWrap="wrap">
           {ProgressAPI ?  <CircularProgress color="primary" />: 
+            questionlist.length === 0 ? 
+            <Typography variant="h6" component="h6" align="center" gutterBottom sx={{ color: 'black', marginBottom: 2}}>
+              作成された問題がまだありません。問題を作成しましょう！！
+            </Typography> 
+            :
             questionlist.map((question) => (
               <>
                   <Card variant="outlined" className={styles.QuestionCard} key={question.questionSetId}>
                     <CardContent>
-                      <Typography variant="h5" component="div">
-                        {truncateString(question.questionSetTitle, 20)}
+                      <Typography variant="h6" component="div">
+                        {truncateString(question.questionSetTitle, 14)}
                       </Typography>
                       <Typography sx={{ mb: 1.5 }} color="text.secondary">
                         {question.questionSetId}
@@ -246,20 +251,38 @@ export default function BasicMenu() {
               <CloseIcon onClick={handleCloseDetailModal}/>
             </Typography>
             <Typography variant="h5" component="div"sx={{mb:2, textAlign: 'center'}}>
-              {truncateString(Title, 20)}
+              {Title}
             </Typography>
-            <div style={{textAlign: 'center'}}>
-              <Button href="../quiz/Answer?id=1" variant="contained" color="primary" startIcon={<CheckBoxIcon />} sx={{ mb: 2, mr:2, display: 'box' }}>
-                回答
-              </Button>
-              <Button onClick={()=> {RequestDeleteQuestion(Id)}} variant="contained" color="error" startIcon={<DeleteIcon />} sx={{ mb: 2, mr:2, display: 'box' }}>
-                削除
-              </Button>
-              <Button href="https://google.com" variant="contained" color="inherit" startIcon={<EditIcon />} sx={{ mb: 2, mr:2, display: 'box' }}>
-                編集
-              </Button>
-
-            </div>
+            {
+                linearProgressDeleteQuestion ? 
+                (
+                  <div style={{textAlign: 'center'}}>
+                    <Button onClick={() => {Router.push("/quiz/answer/"+Id)}} variant="contained" color="primary" startIcon={<CheckBoxIcon />} sx={{ mb: 2, mr:2, display: 'box' }} disabled>
+                      回答
+                    </Button>
+                    <Button onClick={()=> {RequestDeleteQuestion(Id)}} variant="contained" color="error" startIcon={<DeleteIcon />} sx={{ mb: 2, mr:2, display: 'box' }} disabled>
+                      削除
+                    </Button>
+                    <Button onClick={()=> {}} variant="contained" color="inherit" startIcon={<EditIcon />} sx={{ mb: 2, mr:2, display: 'box' }}  disabled>
+                      編集
+                    </Button>
+                  </div>
+                )
+                :
+                (
+                  <div style={{textAlign: 'center'}}>
+                    <Button onClick={() => {Router.push("/quiz/answer/"+Id)}} variant="contained" color="primary" startIcon={<CheckBoxIcon />} sx={{ mb: 2, mr:2, display: 'box' }}>
+                      回答
+                    </Button>
+                    <Button onClick={()=> {RequestDeleteQuestion(Id)}} variant="contained" color="error" startIcon={<DeleteIcon />} sx={{ mb: 2, mr:2, display: 'box' }}>
+                      削除
+                    </Button>
+                    <Button onClick={()=> {}} variant="contained" color="inherit" startIcon={<EditIcon />} sx={{ mb: 2, mr:2, display: 'box' }} >
+                      編集
+                    </Button>
+                </div>
+                )
+              }
           </Box>
         </Modal>
       </div>  

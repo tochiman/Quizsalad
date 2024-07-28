@@ -1,5 +1,6 @@
 import { Modal } from "@mui/material";
 import styles from '@/styles/Home.module.css'
+import CloseIcon from '@mui/icons-material/Close';
 import { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { FC } from "react";
@@ -168,6 +169,51 @@ const Header: FC<MyComponentProps> = ({ site }) => {
                   const result = fetch(url, Options).catch(res => {console.log(res)})                
                   signOut({callbackUrl: "/"})
                 }}><div><img src='../LogoutIcon.svg' width='18px' ></img>ログアウト</div></p>
+              </div>    
+              </Modal>
+            </ul>
+          </nav>
+        </header>
+      </>
+    )
+  } else if (site == "answer") {
+    var homeURL = "/home"
+    return (
+      <>
+        <header>
+          <h1>
+            <img className={styles.logo} src='../../favicon.ico' />
+            <a className={styles.title} href="/home">Quizsalad</a>
+          </h1>
+          <nav className={styles.hednav}>
+            <ul>
+                <div onClick={handleOpen}>
+                  <CloseIcon></CloseIcon>
+                </div>
+              <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                <div className={styles.popup}>
+                {imageURL && <img className={styles.acountPop} src={imageURL} />}
+                <p>{session?.user?.name} <span>でログイン中</span></p>
+                <hr className={styles.line}></hr>
+                <Link href={homeURL}><div>ホームに戻る</div></Link>
+                <p className={styles.logout} onClick={() => {
+                  const url = process.env.API_FRONT + '/api/v1/token/delete'
+                  const Options = {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      id: session?.user.id,
+                      token: session?.user.accessToken,
+                    }),
+                  };
+                  const result = fetch(url, Options).catch(res => {console.log(res)})                
+                  signOut({callbackUrl: "/"})
+                }}><div><img src='../../LogoutIcon.svg' width='18px' ></img>ログアウト</div></p>
               </div>    
               </Modal>
             </ul>
